@@ -78,8 +78,15 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Load model with safe_mode=False to handle version incompatibilities
-        model = tf.keras.models.load_model(MODEL_PATH, compile=False, safe_mode=False)
+        # Custom InputLayer to handle batch_shape parameter
+        def custom_input_layer(**config):
+            if 'batch_shape' in config:
+                config['input_shape'] = config.pop('batch_shape')[1:]
+            return tf.keras.layers.InputLayer(**config)
+        
+        # Load model with custom objects
+        custom_objects = {'InputLayer': custom_input_layer}
+        model = tf.keras.models.load_model(MODEL_PATH, custom_objects=custom_objects, compile=False)
         print(f"✅ Model loaded successfully from {MODEL_PATH}")
         print(f"Model classes: {len(class_names)}")
         print(f"Model input shape: {model.input_shape}")

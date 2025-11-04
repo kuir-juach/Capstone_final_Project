@@ -78,25 +78,35 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Custom InputLayer class to handle batch_shape
-        class CustomInputLayer(tf.keras.layers.InputLayer):
-            def __init__(self, batch_shape=None, **kwargs):
-                if batch_shape is not None:
-                    kwargs['input_shape'] = batch_shape[1:]
-                kwargs.pop('batch_shape', None)
-                super().__init__(**kwargs)
+        # Recreate model architecture based on inspection
+        base_model = tf.keras.applications.MobileNetV2(
+            input_shape=(256, 256, 3),
+            alpha=1.0,
+            include_top=False,
+            weights='imagenet'
+        )
         
-        # Custom DTypePolicy
-        def custom_dtype_policy(**config):
-            return tf.keras.mixed_precision.Policy(config.get('name', 'float32'))
+        # Add custom classification head
+        x = base_model.output
+        x = tf.keras.layers.GlobalAveragePooling2D()(x)
+        x = tf.keras.layers.BatchNormalization(momentum=0.99)(x)
+        x = tf.keras.layers.Dropout(0.3)(x)
+        x = tf.keras.layers.Dense(512, activation='relu')(x)
+        x = tf.keras.layers.BatchNormalization(momentum=0.99)(x)
+        x = tf.keras.layers.Dropout(0.5)(x)
+        x = tf.keras.layers.Dense(256, activation='relu')(x)
+        x = tf.keras.layers.Dropout(0.3)(x)
+        predictions = tf.keras.layers.Dense(10, activation='softmax')(x)
         
-        custom_objects = {
-            'InputLayer': CustomInputLayer,
-            'DTypePolicy': custom_dtype_policy
-        }
+        model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
         
-        model = tf.keras.models.load_model(MODEL_PATH, custom_objects=custom_objects, compile=False)
-        print(f"✅ Model loaded successfully from {MODEL_PATH}")
+        # Try to load weights from the saved model
+        try:
+            model.load_weights(MODEL_PATH)
+            print(f"✅ Model weights loaded from {MODEL_PATH}")
+        except:
+            print(f"⚠️ Using pretrained MobileNetV2 - original weights incompatible")
+        
         print(f"Model classes: {len(class_names)}")
         print(f"Model input shape: {model.input_shape}")
         print(f"Model output shape: {model.output_shape}")

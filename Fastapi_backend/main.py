@@ -78,34 +78,51 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Recreate model architecture based on inspection
+        # Recreate model architecture and load extracted weights
+        import pickle
+        
         base_model = tf.keras.applications.MobileNetV2(
             input_shape=(256, 256, 3),
             alpha=1.0,
             include_top=False,
-            weights='imagenet'
+            weights=None  # Don't load ImageNet weights
         )
         
         # Add custom classification head
         x = base_model.output
-        x = tf.keras.layers.GlobalAveragePooling2D()(x)
-        x = tf.keras.layers.BatchNormalization(momentum=0.99)(x)
-        x = tf.keras.layers.Dropout(0.3)(x)
-        x = tf.keras.layers.Dense(512, activation='relu')(x)
-        x = tf.keras.layers.BatchNormalization(momentum=0.99)(x)
-        x = tf.keras.layers.Dropout(0.5)(x)
-        x = tf.keras.layers.Dense(256, activation='relu')(x)
-        x = tf.keras.layers.Dropout(0.3)(x)
-        predictions = tf.keras.layers.Dense(10, activation='softmax')(x)
+        x = tf.keras.layers.GlobalAveragePooling2D(name='global_average_pooling2d_2')(x)
+        x = tf.keras.layers.BatchNormalization(momentum=0.99, name='batch_normalization_4')(x)
+        x = tf.keras.layers.Dropout(0.3, name='dropout_6')(x)
+        x = tf.keras.layers.Dense(512, activation='relu', name='dense_6')(x)
+        x = tf.keras.layers.BatchNormalization(momentum=0.99, name='batch_normalization_5')(x)
+        x = tf.keras.layers.Dropout(0.5, name='dropout_7')(x)
+        x = tf.keras.layers.Dense(256, activation='relu', name='dense_7')(x)
+        x = tf.keras.layers.Dropout(0.3, name='dropout_8')(x)
+        predictions = tf.keras.layers.Dense(10, activation='softmax', name='dense_8')(x)
         
         model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
         
-        # Try to load weights from the saved model
+        # Load extracted weights
         try:
-            model.load_weights(MODEL_PATH)
-            print(f"✅ Model weights loaded from {MODEL_PATH}")
-        except:
-            print(f"⚠️ Using pretrained MobileNetV2 - original weights incompatible")
+            with open('extracted_weights.pkl', 'rb') as f:
+                weights_dict = pickle.load(f)
+            
+            # Set weights for each layer
+            for layer in model.layers:
+                layer_name = layer.name
+                if layer_name in weights_dict:
+                    layer_weights = weights_dict[layer_name]
+                    weight_values = []
+                    for weight_name in layer.weights:
+                        weight_key = weight_name.name.split('/')[-1].split(':')[0]
+                        if weight_key in layer_weights:
+                            weight_values.append(layer_weights[weight_key])
+                    if weight_values:
+                        layer.set_weights(weight_values)
+            
+            print(f"✅ Trained weights loaded successfully")
+        except Exception as e:
+            print(f"⚠️ Could not load trained weights: {e}")
         
         print(f"Model classes: {len(class_names)}")
         print(f"Model input shape: {model.input_shape}")

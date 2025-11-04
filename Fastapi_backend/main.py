@@ -42,11 +42,14 @@ def create_dummy_model():
     """Create a dummy model for deployment when real model fails to load"""
     from tensorflow.keras import layers, models
     
+    # Use actual number of classes from class_names
+    num_classes = len(class_names) if class_names else 10
+    
     model = models.Sequential([
         layers.Input(shape=(*TARGET_SIZE, 3)),
         layers.Conv2D(32, 3, activation='relu'),
         layers.GlobalAveragePooling2D(),
-        layers.Dense(28, activation='softmax')  # 28 classes from notebook
+        layers.Dense(num_classes, activation='softmax')
     ])
     
     model.compile(
@@ -69,28 +72,17 @@ def load_model_and_classes():
         else:
             # Full class names from notebook
             class_names = [
-                'Alpinia Galanga (Rasna)', 'Amaranthus Viridis (Arive-Dantu)', 
-                'Artocarpus Heterophyllus (Jackfruit)', 'Basale', 
-                'Carissa Carandas (Karanda)', 'Citrus Limon (Lemon)', 
-                'Ficus Religiosa (Peepal Tree)', 'Guava', 'Hibiscus Rosa-sinensis', 
-                'Jasminum (Jasmine)', 'Mango', 'Mentha (Mint)', 
-                'Moringa Oleifera (Drumstick)', 'Muntingia Calabura (Jamaica Cherry-Gasagase)', 
-                'Murraya Koenigii (Curry)', 'Neem', 'Nerium Oleander (Oleander)', 
-                'Nyctanthes Arbor-tristis (Parijata)', 'Ocimum Tenuiflorum (Tulsi)', 
-                'Piper Betle (Betel)', 'Plectranthus Amboinicus (Mexican Mint)', 
-                'Punica Granatum (Pomegranate)', 'Roxburgh fig', 
-                'Santalum Album (Sandalwood)', 'Syzygium Cumini (Jamun)', 
-                'Syzygium Jambos (Rose Apple)', 'Tabernaemontana Divaricata (Crape Jasmine)', 
-                'Trigonella Foenum-graecum (Fenugreek)'
+                'Basale', 'Betle', 'Drumstick', 'Guava', 'Jackfruit',
+                'Lemon', 'Mentha', 'Neem', 'Roxburgh fig', 'sinensis'
             ]
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Load the actual trained model
-        model = tf.keras.models.load_model(MODEL_PATH)
+        # Load model with custom objects to handle batch_shape issue
+        custom_objects = {'batch_shape': None}
+        model = tf.keras.models.load_model(MODEL_PATH, custom_objects=custom_objects, compile=False)
         print(f"✅ Model loaded successfully from {MODEL_PATH}")
-        print(f"Model input shape: {model.input_shape}")
-        print(f"Model output shape: {model.output_shape}")
+        print(f"Model classes: {len(class_names)}")
         
     except Exception as e:
         print(f"❌ Error loading classes: {e}")

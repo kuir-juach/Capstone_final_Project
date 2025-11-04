@@ -78,11 +78,12 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Load model with custom objects to handle batch_shape issue
-        custom_objects = {'batch_shape': None}
-        model = tf.keras.models.load_model(MODEL_PATH, custom_objects=custom_objects, compile=False)
+        # Load the trained model
+        model = tf.keras.models.load_model(MODEL_PATH)
         print(f"✅ Model loaded successfully from {MODEL_PATH}")
         print(f"Model classes: {len(class_names)}")
+        print(f"Model input shape: {model.input_shape}")
+        print(f"Model output shape: {model.output_shape}")
         
     except Exception as e:
         print(f"❌ Error loading classes: {e}")

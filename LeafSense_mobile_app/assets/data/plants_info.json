@@ -1,0 +1,42 @@
+{
+  "Aloe Vera": {
+    "name_en": "Aloe Vera",
+    "name_ar": "الصبار",
+    "desc_en": "A succulent plant known for its healing properties. Used for treating burns, wounds, and skin conditions.",
+    "desc_ar": "نبات عصاري معروف بخصائصه العلاجية. يستخدم لعلاج الحروق والجروح وحالات الجلد.",
+    "prep_en": "Extract gel from leaves and apply directly to skin, or consume juice for digestive health.",
+    "prep_ar": "استخرج الجل من الأوراق وضعه مباشرة على الجلد، أو اشرب العصير لصحة الجهاز الهضمي."
+  },
+  "Moringa": {
+    "name_en": "Moringa",
+    "name_ar": "المورينجا",
+    "desc_en": "Known as the 'miracle tree', rich in vitamins and minerals. Used for malnutrition and various health conditions.",
+    "desc_ar": "تُعرف بـ 'الشجرة المعجزة'، غنية بالفيتامينات والمعادن. تستخدم لسوء التغذية وحالات صحية مختلفة.",
+    "prep_en": "Dry leaves and grind into powder. Mix with water or food. Seeds can be eaten or oil extracted.",
+    "prep_ar": "جفف الأوراق واطحنها إلى مسحوق. امزج مع الماء أو الطعام. يمكن أكل البذور أو استخراج الزيت."
+  },
+  "Neem": {
+    "name_en": "Neem",
+    "name_ar": "النيم",
+    "desc_en": "Powerful antibacterial and antifungal properties. Used for skin conditions, dental care, and pest control.",
+    "desc_ar": "خصائص قوية مضادة للبكتيريا والفطريات. يستخدم لحالات الجلد وعناية الأسنان ومكافحة الآفات.",
+    "prep_en": "Boil leaves to make tea, or grind into paste for topical application. Oil can be extracted from seeds.",
+    "prep_ar": "اغلي الأوراق لعمل الشاي، أو اطحنها إلى عجينة للتطبيق الموضعي. يمكن استخراج الزيت من البذور."
+  },
+  "Hibiscus": {
+    "name_en": "Hibiscus",
+    "name_ar": "الكركديه",
+    "desc_en": "Rich in antioxidants and vitamin C. Used for lowering blood pressure and supporting heart health.",
+    "desc_ar": "غني بمضادات الأكسدة وفيتامين سي. يستخدم لخفض ضغط الدم ودعم صحة القلب.",
+    "prep_en": "Dry flowers and steep in hot water to make tea. Can be consumed hot or cold.",
+    "prep_ar": "جفف الأزهار وانقعها في الماء الساخن لعمل الشاي. يمكن تناولها ساخنة أو باردة."
+  },
+  "Baobab": {
+    "name_en": "Baobab",
+    "name_ar": "التبلدي",
+    "desc_en": "Fruit is rich in vitamin C and fiber. Leaves and bark have medicinal properties for digestive issues.",
+    "desc_ar": "الثمرة غنية بفيتامين سي والألياف. الأوراق واللحاء لها خصائص طبية لمشاكل الجهاز الهضمي.",
+    "prep_en": "Fruit pulp can be eaten fresh or dried. Leaves can be cooked as vegetables or dried for tea.",
+    "prep_ar": "يمكن أكل لب الثمرة طازجاً أو مجففاً. يمكن طبخ الأوراق كخضروات أو تجفيفها للشاي."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "153629330083",
+    "project_id": "leafsense-2b318",
+    "storage_bucket": "leafsense-2b318.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153629330083:android:ddd3db9e7dd039513d4d16",
+        "android_client_info": {
+          "package_name": "com.example.leaf_sense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153629330083-esl18do4be0nf4a8t9kdjmr2s6d2ni39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFzXdDNRtXADsYWz24wk9CU4wVYKFypoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153629330083-esl18do4be0nf4a8t9kdjmr2s6d2ni39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

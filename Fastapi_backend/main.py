@@ -78,51 +78,51 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Recreate model architecture and load extracted weights
-        import pickle
+        # Load model with comprehensive compatibility handling
+        def custom_input_layer(**config):
+            if 'batch_shape' in config:
+                config['input_shape'] = config.pop('batch_shape')[1:]
+            return tf.keras.layers.InputLayer(**config)
         
-        base_model = tf.keras.applications.MobileNetV2(
-            input_shape=(256, 256, 3),
-            alpha=1.0,
-            include_top=False,
-            weights=None  # Don't load ImageNet weights
-        )
+        def custom_dtype_policy(**config):
+            return tf.keras.mixed_precision.Policy(config.get('name', 'float32'))
         
-        # Add custom classification head
-        x = base_model.output
-        x = tf.keras.layers.GlobalAveragePooling2D(name='global_average_pooling2d_2')(x)
-        x = tf.keras.layers.BatchNormalization(momentum=0.99, name='batch_normalization_4')(x)
-        x = tf.keras.layers.Dropout(0.3, name='dropout_6')(x)
-        x = tf.keras.layers.Dense(512, activation='relu', name='dense_6')(x)
-        x = tf.keras.layers.BatchNormalization(momentum=0.99, name='batch_normalization_5')(x)
-        x = tf.keras.layers.Dropout(0.5, name='dropout_7')(x)
-        x = tf.keras.layers.Dense(256, activation='relu', name='dense_7')(x)
-        x = tf.keras.layers.Dropout(0.3, name='dropout_8')(x)
-        predictions = tf.keras.layers.Dense(10, activation='softmax', name='dense_8')(x)
+        # Comprehensive custom objects
+        custom_objects = {
+            'InputLayer': custom_input_layer,
+            'DTypePolicy': custom_dtype_policy,
+            'DepthwiseConv2D': tf.keras.layers.DepthwiseConv2D,
+            'BatchNormalization': tf.keras.layers.BatchNormalization,
+            'ReLU': tf.keras.layers.ReLU,
+            'Conv2D': tf.keras.layers.Conv2D,
+            'GlobalAveragePooling2D': tf.keras.layers.GlobalAveragePooling2D,
+            'Dropout': tf.keras.layers.Dropout,
+            'Dense': tf.keras.layers.Dense
+        }
         
-        model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
-        
-        # Load extracted weights
+        # Try multiple loading approaches
         try:
-            with open('extracted_weights.pkl', 'rb') as f:
-                weights_dict = pickle.load(f)
-            
-            # Set weights for each layer
-            for layer in model.layers:
-                layer_name = layer.name
-                if layer_name in weights_dict:
-                    layer_weights = weights_dict[layer_name]
-                    weight_values = []
-                    for weight_name in layer.weights:
-                        weight_key = weight_name.name.split('/')[-1].split(':')[0]
-                        if weight_key in layer_weights:
-                            weight_values.append(layer_weights[weight_key])
-                    if weight_values:
-                        layer.set_weights(weight_values)
-            
-            print(f"✅ Trained weights loaded successfully")
-        except Exception as e:
-            print(f"⚠️ Could not load trained weights: {e}")
+            # First attempt: direct load with custom objects
+            model = tf.keras.models.load_model(
+                MODEL_PATH, 
+                custom_objects=custom_objects, 
+                compile=False
+            )
+            print(f"✅ Model loaded directly from {MODEL_PATH}")
+        except Exception as e1:
+            print(f"Direct load failed: {e1}")
+            try:
+                # Second attempt: load with safe_mode=False
+                model = tf.keras.models.load_model(
+                    MODEL_PATH, 
+                    custom_objects=custom_objects, 
+                    compile=False,
+                    safe_mode=False
+                )
+                print(f"✅ Model loaded with safe_mode=False")
+            except Exception as e2:
+                print(f"Safe mode load failed: {e2}")
+                raise Exception("All model loading attempts failed")
         
         print(f"Model classes: {len(class_names)}")
         print(f"Model input shape: {model.input_shape}")

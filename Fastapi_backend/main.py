@@ -78,14 +78,20 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Load model - it was trained with Keras 3.10.0
-        import tensorflow.keras as keras
+        # Custom InputLayer class to handle batch_shape
+        class CustomInputLayer(tf.keras.layers.InputLayer):
+            def __init__(self, batch_shape=None, **kwargs):
+                if batch_shape is not None:
+                    kwargs['input_shape'] = batch_shape[1:]
+                kwargs.pop('batch_shape', None)
+                super().__init__(**kwargs)
         
-        # Handle DTypePolicy compatibility
+        # Custom DTypePolicy
         def custom_dtype_policy(**config):
             return tf.keras.mixed_precision.Policy(config.get('name', 'float32'))
         
         custom_objects = {
+            'InputLayer': CustomInputLayer,
             'DTypePolicy': custom_dtype_policy
         }
         

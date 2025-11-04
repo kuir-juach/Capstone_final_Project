@@ -32,7 +32,7 @@ app.add_middleware(
 # Configuration
 MODEL_PATH = "Medicinal_model.h5"
 CLASS_NAMES_PATH = "class_names.txt"
-TARGET_SIZE = (224, 224)  # Match training size from notebook
+TARGET_SIZE = (256, 256)  # Match model input size
 
 # Global variables
 model = None
@@ -78,14 +78,17 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Custom InputLayer to handle batch_shape parameter
-        def custom_input_layer(**config):
-            if 'batch_shape' in config:
-                config['input_shape'] = config.pop('batch_shape')[1:]
-            return tf.keras.layers.InputLayer(**config)
+        # Load model - it was trained with Keras 3.10.0
+        import tensorflow.keras as keras
         
-        # Load model with custom objects
-        custom_objects = {'InputLayer': custom_input_layer}
+        # Handle DTypePolicy compatibility
+        def custom_dtype_policy(**config):
+            return tf.keras.mixed_precision.Policy(config.get('name', 'float32'))
+        
+        custom_objects = {
+            'DTypePolicy': custom_dtype_policy
+        }
+        
         model = tf.keras.models.load_model(MODEL_PATH, custom_objects=custom_objects, compile=False)
         print(f"✅ Model loaded successfully from {MODEL_PATH}")
         print(f"Model classes: {len(class_names)}")

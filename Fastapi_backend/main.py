@@ -5,11 +5,12 @@ Exact replication of Jupyter notebook training pipeline
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 import numpy as np
 from PIL import Image
 import io
-import os
 from typing import List, Dict
 
 # Initialize FastAPI app
@@ -85,28 +86,18 @@ def load_model_and_classes():
         
         print(f"✅ Loaded {len(class_names)} classes")
         
-        # Try multiple loading methods
-        try:
-            model = tf.keras.models.load_model(MODEL_PATH, compile=False)
-            print(f"✅ Model loaded successfully from {MODEL_PATH}")
-        except Exception as e1:
-            print(f"First attempt failed: {e1}")
-            try:
-                # Try with custom_objects
-                model = tf.keras.models.load_model(MODEL_PATH, custom_objects={'batch_shape': None})
-                print(f"✅ Model loaded with custom_objects")
-            except Exception as e2:
-                print(f"Second attempt failed: {e2}")
-                # Create a dummy model for deployment
-                model = create_dummy_model()
-                print(f"⚠️ Using dummy model due to compatibility issues")
+        # Load the actual trained model
+        model = tf.keras.models.load_model(MODEL_PATH)
+        print(f"✅ Model loaded successfully from {MODEL_PATH}")
+        print(f"Model input shape: {model.input_shape}")
+        print(f"Model output shape: {model.output_shape}")
         
     except Exception as e:
         print(f"❌ Error loading classes: {e}")
         raise e
 
-# Skip model loading on startup - load lazily when needed
-# load_model_and_classes()
+# Load model on startup
+load_model_and_classes()
 
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     """

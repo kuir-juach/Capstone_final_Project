@@ -42,8 +42,8 @@ def load_model_and_classes():
     global model, class_names
     
     try:
-        # Load model
-        model = tf.keras.models.load_model(MODEL_PATH)
+        # Load model with custom objects to handle compatibility
+        model = tf.keras.models.load_model(MODEL_PATH, compile=False)
         print(f"✅ Model loaded successfully from {MODEL_PATH}")
         
         # Load class names (alphabetically ordered from flow_from_directory)
@@ -61,7 +61,13 @@ def load_model_and_classes():
         
     except Exception as e:
         print(f"❌ Error loading model or classes: {e}")
-        raise e
+        print("Trying alternative loading method...")
+        try:
+            # Alternative: load with safe_mode=False
+            model = tf.keras.models.load_model(MODEL_PATH, safe_mode=False)
+            print(f"✅ Model loaded with alternative method")
+        except:
+            raise e
 
 # Load model and classes on startup
 load_model_and_classes()

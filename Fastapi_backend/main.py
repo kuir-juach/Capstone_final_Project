@@ -38,37 +38,20 @@ TARGET_SIZE = (256, 256)
 model = None
 class_names = []
 
-def create_working_model():
-    """Create a working CNN model that gives varied predictions"""
-    inputs = tf.keras.layers.Input(shape=(*TARGET_SIZE, 3))
-    
-    # Feature extraction with random initialization for varied outputs
-    x = tf.keras.layers.Conv2D(64, 7, strides=2, padding='same', activation='relu')(inputs)
-    x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.MaxPooling2D(3, strides=2)(x)
-    
-    # Multiple conv blocks for feature learning
-    for filters in [128, 256, 512]:
-        x = tf.keras.layers.Conv2D(filters, 3, padding='same', activation='relu')(x)
-        x = tf.keras.layers.BatchNormalization()(x)
-        x = tf.keras.layers.Conv2D(filters, 3, padding='same', activation='relu')(x)
-        x = tf.keras.layers.BatchNormalization()(x)
-        x = tf.keras.layers.MaxPooling2D(2)(x)
-    
-    # Classification head
-    x = tf.keras.layers.GlobalAveragePooling2D()(x)
-    x = tf.keras.layers.Dense(1024, activation='relu')(x)
-    x = tf.keras.layers.Dropout(0.5)(x)
-    x = tf.keras.layers.Dense(512, activation='relu')(x)
-    x = tf.keras.layers.Dropout(0.3)(x)
-    outputs = tf.keras.layers.Dense(10, activation='softmax')(x)
-    
-    model = tf.keras.Model(inputs, outputs)
-    
-    # Initialize with random weights to ensure varied predictions
-    model.compile(optimizer='adam', loss='categorical_crossentropy')
-    
-    return model
+def load_trained_model():
+    """Load the actual trained model"""
+    try:
+        # Try to load the actual trained model
+        if os.path.exists(MODEL_PATH):
+            model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+            print(f"✅ Loaded trained model from {MODEL_PATH}")
+            return model
+        else:
+            print(f"❌ Model file {MODEL_PATH} not found")
+            return None
+    except Exception as e:
+        print(f"❌ Error loading model: {e}")
+        return None
 
 def load_model_and_classes():
     """Load model with bulletproof error handling"""
@@ -92,21 +75,15 @@ def load_model_and_classes():
         ]
         print(f"✅ Using default {len(class_names)} classes")
     
-    # Create working model - no loading errors possible
-    try:
-        model = create_working_model()
-        print(f"✅ Model created successfully")
-        print(f"Model input shape: {model.input_shape}")
-        print(f"Model output shape: {model.output_shape}")
-    except Exception as e:
-        print(f"❌ Model creation failed: {e}")
-        # Emergency simple model
-        model = tf.keras.Sequential([
-            tf.keras.layers.Input(shape=(*TARGET_SIZE, 3)),
-            tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(len(class_names), activation='softmax')
-        ])
-        print(f"✅ Emergency model created")
+    # Load the actual trained model
+    model = load_trained_model()
+    
+    if model is None:
+        print("❌ Cannot load trained model. Please ensure Medicinal_model.h5 exists.")
+        raise Exception("Trained model not found")
+    
+    print(f"Model input shape: {model.input_shape}")
+    print(f"Model output shape: {model.output_shape}")
 
 # Load model on startup - now error-free
 load_model_and_classes()
@@ -174,8 +151,12 @@ async def predict_plant(file: UploadFile = File(...)) -> Dict:
         else:
             raise HTTPException(status_code=500, detail="Invalid prediction index")
         
-        # Always use the predicted class - no hardcoded out of scope
-        warning = "MEDICAL DISCLAIMER: This is AI prediction only. Always consult healthcare professionals before using any plant medicinally."
+        # Medical safety check with proper thresholds
+        if confidence < 0.6:
+            predicted_class = "OUT OF SCOPE - Not a recognized medicinal plant"
+            warning = "Low confidence prediction. This plant may not be in our trained database. NEVER use unidentified plants for medical purposes."
+        else:
+            warning = "MEDICAL DISCLAIMER: This is AI prediction only. Always consult healthcare professionals before using any plant medicinally."
         
         # Get all class probabilities
         all_predictions = {}

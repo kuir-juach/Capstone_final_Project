@@ -20,12 +20,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add CORS middleware for Flutter integration
+# Add CORS middleware for Flutter web integration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -143,6 +143,11 @@ def preprocess_image(image_bytes: bytes) -> np.ndarray:
 async def health_check() -> Dict[str, str]:
     """Health check endpoint"""
     return {"status": "healthy"}
+
+@app.options("/predict")
+async def predict_options():
+    """Handle CORS preflight for predict endpoint"""
+    return {"message": "OK"}
 
 @app.get("/model/info")
 async def get_model_info() -> Dict:

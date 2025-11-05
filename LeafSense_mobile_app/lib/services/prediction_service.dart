@@ -1,52 +1,58 @@
-import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:http_parser/http_parser.dart' as http_parser;
 
 class PredictionService {
-  static const String baseUrl = 'http://127.0.0.1:8000';
+  // Different URLs for different platforms
+  static String get baseUrl {
+    if (kIsWeb) {
+      return 'http://localhost:8001';
+    } else {
+      return 'http://10.0.2.2:8001';
+    }
+  }
 
   static Future<Map<String, dynamic>> predictPlant(Uint8List imageBytes) async {
-    print('🔄 Starting prediction...');
-    print('📊 Image size: ${imageBytes.length} bytes');
+    print('Attempting to connect to: $baseUrl');
     
     try {
-      // Test server first
-      print('🏥 Testing server health...');
-      final healthCheck = await http.get(Uri.parse('$baseUrl/health'));
-      print('🏥 Health check status: ${healthCheck.statusCode}');
+      // Test server health first
+      final healthResponse = await http.get(
+        Uri.parse('$baseUrl/health'),
+      ).timeout(Duration(seconds: 5));
       
-      if (healthCheck.statusCode != 200) {
-        throw Exception('Server not responding');
+      if (healthResponse.statusCode != 200) {
+        throw Exception('Server health check failed');
       }
       
-      print('📤 Creating prediction request...');
+      print('Server is healthy, making prediction...');
+      
       var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/predict'));
+      
+      request.headers.addAll({
+        'Accept': 'application/json',
+      });
       
       request.files.add(http.MultipartFile.fromBytes(
         'file',
         imageBytes,
         filename: 'plant.jpg',
+        contentType: http_parser.MediaType('image', 'jpeg'),
       ));
       
-      print('🚀 Sending request to server...');
-      var response = await request.send();
-      print('📥 Response status: ${response.statusCode}');
-      
+      var response = await request.send().timeout(Duration(seconds: 30));
       var responseBody = await response.stream.bytesToString();
-      print('📄 Response body: $responseBody');
       
       if (response.statusCode == 200) {
-        final result = json.decode(responseBody);
-        print('✅ Prediction successful: ${result['predicted_class']}');
-        return result;
+        print('Prediction successful');
+        return json.decode(responseBody);
       } else {
-        print('❌ Server error: ${response.statusCode}');
-        print('❌ Error body: $responseBody');
-        throw Exception('Server error: ${response.statusCode} - $responseBody');
+        throw Exception('Server returned ${response.statusCode}: $responseBody');
       }
     } catch (e) {
-      print('💥 Prediction failed: $e');
-      throw Exception('$e');
+      print('Connection failed: $e');
+      throw Exception('Cannot connect to server at $baseUrl. Please ensure:\n1. FastAPI server is running\n2. Server is accessible from your device\n3. No firewall blocking port 8000');
     }
   }
 }

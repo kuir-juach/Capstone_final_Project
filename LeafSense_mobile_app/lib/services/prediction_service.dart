@@ -1,15 +1,15 @@
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart' as http_parser;
 
 class PredictionService {
-  // Different URLs for different platforms
   static String get baseUrl {
     if (kIsWeb) {
-      return 'http://localhost:8001';
+      return 'http://localhost:8000';
     } else {
-      return 'http://10.0.2.2:8001';
+      return 'http://10.0.2.2:8000';
     }
   }
 

@@ -2,8 +2,6 @@
 
 ### Bridging Traditional Knowledge and Modern Innovation Through AI
 
----
-
 ## **Overview**
 
 **LeafSense** is a mobile deep learning application developed to identify **South Sudanese medicinal plants** with high accuracy while preserving indigenous knowledge.  
@@ -11,8 +9,6 @@
 Designed for accessibility in low-resource communities, it empowers users to capture or upload images of medicinal plants and instantly receive identification, therapeutic uses, traditional preparation methods, and cultural context.
 
 At its core, **LeafSense** represents more than technology — it’s a movement to **preserve traditional medicine**, **promote healthcare access**, and **empower rural communities** through artificial intelligence.
-
----
 
 ## **Problem Statement**
 
@@ -25,7 +21,6 @@ In South Sudan, where **over 70% of the population depends on traditional medici
 
 This situation threatens not only the **cultural heritage** of South Sudan but also **public health and biodiversity**.
 
----
 
 ## **Solution**
 
@@ -40,9 +35,12 @@ It combines **deep learning**, **traditional knowledge**, and **accessible mobil
 - Work offline in remote areas with poor connectivity  
 
 By blending **modern AI tools** with **cultural preservation**, LeafSense ensures that traditional medicinal wisdom remains accessible, safe, and relevant for future generations.
-
----
-
+## GitHub Repository
+Here is the link to the GitHub https://github.com/kuir-juach/Capstone_final_Project.git 
+## Link to the Video
+Here is the link to the demo video https://drive.google.com/file/d/1GA5hz_PToKVEaL7oGmfHcN59GWGnADnn/view?usp=sharing 
+## Link to the Video
+Here is the link to the APK file https://drive.google.com/drive/folders/1PgLYdAGG82hL7kXi3znyo-p5VHsxejIv?usp=sharing
 ## **Key Features**
 
 ### **Plant Identification**
@@ -128,12 +126,6 @@ LeafSense addresses these challenges by providing:
 - **Bilingual support** (English and Arabic)
 - **Low-resource optimization** for rural areas
 - **User-friendly interface** accessible to all literacy levels
-
-## GitHub Repository
-Here is the link to the GitHub https://github.com/kuir-juach/Capstone_final_Project.git 
-## Link to the Video
-Here is the link to the demo video https://drive.google.com/file/d/1GA5hz_PToKVEaL7oGmfHcN59GWGnADnn/view?usp=sharing 
-
 
 ## Environment Setup & Installation
 
@@ -254,10 +246,10 @@ LeafSense integrates a deep learning model designed to identify South Sudanese m
 - **Font Families**: Default, Roboto, Arial, Times New Roman, Courier New
 
 #### Key Features
-- 🌙 **Dark/Light Mode Toggle**
-- 🔤 **Adjustable Font Sizes** (Accessibility)
-- 🌐 **Bilingual Interface** (English/Arabic)
-- 📱 **Responsive Design** for various screen sizes
+- **Dark/Light Mode Toggle**
+- **Adjustable Font Sizes** (Accessibility)
+- **Bilingual Interface** (English/Arabic)
+- **Responsive Design** for various screen sizes
 
 
 #### Hosting & Backend

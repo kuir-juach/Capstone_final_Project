@@ -35,6 +35,7 @@ It combines **deep learning**, **traditional knowledge**, and **accessible mobil
 - Work offline in remote areas with poor connectivity  
 
 By blending **modern AI tools** with **cultural preservation**, LeafSense ensures that traditional medicinal wisdom remains accessible, safe, and relevant for future generations.
+https://github.com/kuir-juach/Capstone_final_Project/blob/main/Screenshot%202025-11-09%20183436.png
 ## GitHub Repository
 Here is the link to the GitHub https://github.com/kuir-juach/Capstone_final_Project.git 
 ## Link to the Video

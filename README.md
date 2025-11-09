@@ -38,7 +38,7 @@ By blending **modern AI tools** with **cultural preservation**, LeafSense ensure
 ## GitHub Repository
 Here is the link to the GitHub https://github.com/kuir-juach/Capstone_final_Project.git 
 ## Link to the Video
-Here is the link to the demo video https://drive.google.com/drive/folders/1X0a-wCBkjZNyR2QdXqx-TBssONN6-Kxh?usp=sharing 
+Here is the link to the demo video https://youtu.be/0YNp_eZljXY 
 ## Link to the APK
 Here is the link to the APK file https://drive.google.com/drive/folders/1PgLYdAGG82hL7kXi3znyo-p5VHsxejIv?usp=sharing
 ## **Key Features**

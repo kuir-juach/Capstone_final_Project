@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Meet Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .meet-container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .meet-btn {
+            background-color: #4285f4;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        .meet-btn:hover {
+            background-color: #3367d6;
+        }
+    </style>
+</head>
+<body>
+    <div class="meet-container">
+        <h2>LeafSense Expert Consultation</h2>
+        <p>Click the button below to join the Google Meet session with our experts</p>
+        
+        <a href="https://meet.google.com/who-idhp-pnu" target="_blank" class="meet-btn">
+            🎥 Join Google Meet
+        </a>
+        
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">
+            Meeting Link: https://meet.google.com/who-idhp-pnu
+        </p>
+        
+        <script>
+            function joinMeet() {
+                window.open('https://meet.google.com/who-idhp-pnu', '_blank');
+            }
+        </script>
+    </div>
+</body>
+</html>

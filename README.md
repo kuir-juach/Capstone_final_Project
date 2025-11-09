@@ -1,3 +1,109 @@
+# **LeafSense – South Sudanese Medicinal Plant Identifier**
+
+### Bridging Traditional Knowledge and Modern Innovation Through AI
+
+---
+
+## **Overview**
+
+**LeafSense** is a mobile deep learning application developed to identify **South Sudanese medicinal plants** with high accuracy while preserving indigenous knowledge.  
+
+Designed for accessibility in low-resource communities, it empowers users to capture or upload images of medicinal plants and instantly receive identification, therapeutic uses, traditional preparation methods, and cultural context.
+
+At its core, **LeafSense** represents more than technology — it’s a movement to **preserve traditional medicine**, **promote healthcare access**, and **empower rural communities** through artificial intelligence.
+
+---
+
+## **Problem Statement**
+
+In South Sudan, where **over 70% of the population depends on traditional medicine** due to limited access to modern healthcare, there exists a **rapid loss of indigenous medicinal knowledge**. The challenges include:
+
+- **Loss of intergenerational knowledge** due to modernization and migration  
+- **Misidentification of plants**, leading to potential poisoning or ineffective treatment  
+- **Lack of written documentation** for traditional remedies  
+- **Limited healthcare infrastructure**, especially in rural and low-income areas  
+
+This situation threatens not only the **cultural heritage** of South Sudan but also **public health and biodiversity**.
+
+---
+
+## **Solution**
+
+**LeafSense** provides an **AI-powered medicinal plant identification system** designed specifically for South Sudan’s ecosystem and community needs.
+
+It combines **deep learning**, **traditional knowledge**, and **accessible mobile technology** to:
+
+- Instantly identify medicinal plants through image recognition  
+- Provide verified information on preparation, dosage, and usage  
+- Support bilingual interfaces (English and Arabic)  
+- Connect users with traditional medicine experts through online consultations  
+- Work offline in remote areas with poor connectivity  
+
+By blending **modern AI tools** with **cultural preservation**, LeafSense ensures that traditional medicinal wisdom remains accessible, safe, and relevant for future generations.
+
+---
+
+## **Key Features**
+
+### **Plant Identification**
+- Real-time recognition: capture or upload images for instant detection  
+- High accuracy using **CNN-based MobileNetV2 model** trained on 28+ species  
+- Displays **confidence score** for each prediction  
+
+### **Comprehensive Plant Database**
+- Medicinal properties, uses, and dosage guidelines  
+- Traditional preparation and preservation methods  
+- Safety warnings and usage notes  
+- Multi-language support (English & Arabic)
+
+### **Expert Consultation**
+- Book appointments with herbal specialists  
+- Integrated **Google Meet** video consultations  
+- Real-time admin approval and email notifications  
+
+### **User Experience**
+- Intuitive, responsive mobile design  
+- Dark/Light theme support  
+- Adjustable font sizes for readability  
+- Identification history tracking  
+
+### **AI Model**
+- MobileNetV2 architecture with transfer learning  
+- TensorFlow & Keras implementation  
+- Optimized for mobile devices (inference <2 seconds)  
+
+### **Admin Dashboard**
+- Manage users, appointments, and feedback  
+- Monitor analytics and system performance  
+- Approve consultations and review reports  
+
+---
+
+## **System Architecture**
+
+```bash
+LeafSense/
+├──  Mobile App (Flutter)
+│   ├── Cross-platform UI
+│   ├── Camera & gallery integration
+│   ├── Firebase authentication
+│   └── Real-time notifications
+│
+├──     Backend API (FastAPI)
+│   ├── TensorFlow ML model
+│   ├── PostgreSQL database
+│   ├── Image processing logic
+│   └── RESTful API endpoints
+│
+├──     Admin Dashboard (HTML/JS)
+│   ├── User & appointment management
+│   └── Analytics and reporting
+│
+└──    AI Model (CNN)
+    ├── MobileNetV2 architecture
+    ├── Transfer learning
+    └── 10-class medicinal plant classifier
+
 # LeafSense - South Sudanese Medicinal Plant Identifier
 
 ## Description
@@ -18,7 +124,6 @@ However, this invaluable knowledge is under threat due to:
 
 ### Solution
 LeafSense addresses these challenges by providing:
-- **Offline plant identification** using deep learning
 - **Cultural knowledge preservation** with traditional preparation methods
 - **Bilingual support** (English and Arabic)
 - **Low-resource optimization** for rural areas
@@ -73,7 +178,6 @@ dependencies:
 
 ### Platform Support
 - Android (API 21+)
-- iOS (12.0+)
 - Web (Progressive Web App)
 
 ## Design & User Interface

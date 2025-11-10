@@ -46,7 +46,7 @@ Here is the link to the APK file https://drive.google.com/drive/folders/1PgLYdAG
 
 ### **Plant Identification**
 - Real-time recognition: capture or upload images for instant detection  
-- High accuracy using **CNN-based MobileNetV2 model** trained on 28+ species  
+- High accuracy using **CNN-based MobileNetV2 model** trained on 10+ species  
 - Displays **confidence score** for each prediction  
 
 ### **Comprehensive Plant Database**
@@ -102,31 +102,6 @@ LeafSense/
     ├── MobileNetV2 architecture
     ├── Transfer learning
     └── 10-class medicinal plant classifier
-
-# LeafSense - South Sudanese Medicinal Plant Identifier
-
-## Description
-
-LeafSense is a mobile deep learning application specifically designed to identify medicinal plants native to South Sudan. More than just plant recognition, the app preserves and shares traditional knowledge by documenting preparation methods, therapeutic uses, and cultural significance of indigenous flora.
-
-### My Mission
-Preserving indigenous knowledge, improving healthcare access, and strengthening communities in South Sudan by leveraging deep learning technology to bridge traditional wisdom with modern innovation.
-
-### Context
-South Sudan, the world's youngest nation, faces critical healthcare challenges where over 70% of the population relies on traditional medicine as their primary healthcare source. With limited modern health facilities and widespread poverty, communities depend on medicinal plants for treating conditions like malaria, which affects 5.5 million people annually.
-
-However, this invaluable knowledge is under threat due to:
-- Disrupted intergenerational knowledge transfer
-- Urbanization and modernization
-- Lack of written documentation
-- Risk of plant misidentification leading to poisoning
-
-### Solution
-LeafSense addresses these challenges by providing:
-- **Cultural knowledge preservation** with traditional preparation methods
-- **Bilingual support** (English and Arabic)
-- **Low-resource optimization** for rural areas
-- **User-friendly interface** accessible to all literacy levels
 
 ## Environment Setup & Installation
 
@@ -197,7 +172,7 @@ dependencies:
 </div>
 
 #### Machine Learning Overview
-LeafSense integrates a deep learning model designed to identify South Sudanese medicinal plants based on leaf images accurately. The model was trained using Convolutional Neural Networks (CNNs), optimized for mobile and offline performance through TensorFlow Lite conversion.
+LeafSense integrates a deep learning model designed to accurately identify South Sudanese medicinal plants based on leaf images accurately. The model was trained using Convolutional Neural Networks (CNNs), optimized for mobile and offline performance through TensorFlow Lite conversion.
 
 #### Model Architecture
 #### The baseline model consists of:
@@ -262,11 +237,9 @@ LeafSense integrates a deep learning model designed to identify South Sudanese m
 #### Offline Capabilities
 - **Local Storage**: SQLite database for plant information
 - **Image Processing**: On-device TensorFlow Lite model
-- **Sync**: Background synchronization when online
 
 #### Security & Privacy
 - **Data Protection**: Local data encryption
-- **Privacy**: No personal data collection
 - **Permissions**: Camera access only when needed
 
 

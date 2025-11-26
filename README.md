@@ -39,7 +39,7 @@ https://github.com/kuir-juach/Capstone_final_Project/blob/main/Screenshot%202025
 ## GitHub Repository
 Here is the link to the GitHub https://github.com/kuir-juach/Capstone_final_Project.git 
 ## Link to the Video
-Here is the link to the demo video https://youtu.be/0YNp_eZljXY 
+Here is the link to the demo video https://drive.google.com/drive/folders/11SMedJhJPCxTmB6CRkWrXaKHP-fl0JTm?usp=sharing
 ## Link to the APK
 Here is the link to the APK file https://drive.google.com/drive/folders/1PgLYdAGG82hL7kXi3znyo-p5VHsxejIv?usp=sharing
 ## **Key Features**
